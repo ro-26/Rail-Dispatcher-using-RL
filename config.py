@@ -20,6 +20,11 @@ def simple_infra():
     node1 = builder.add_node('node1_2', [tracksection1], [tracksection2])
     node2 = builder.add_node('node23_4', [tracksection2, tracksection3], [tracksection4])
 
+    signal1 = builder.add_signal(tracksection2,30)
+    signal2 = builder.add_signal(tracksection3,100)
+
     return builder
 
-simple_infra()
+# To check everything compiles properly without error
+if __name__ == "__main__":
+    infra = simple_infra()
