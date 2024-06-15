@@ -1,6 +1,8 @@
 # write your code here to build the Infrastructure Graph and
 # attributes of rolling stock and input timetable and initial state
 
+# Example
+
 # here we build a simple infrastructure with two incoming tracks(one longer in which a express travels) and
 # one shorter where local travels, and it makes one stop, so this track is composed of two track sections) one
 # outgoing track and one station following the outgoing track and two signals preceding
@@ -24,6 +26,8 @@ def simple_infra():
     signal2 = builder.add_signal(tracksection3,100)
 
     return builder
+
+# Need to define Rolling Stock and Timetable
 
 # To check everything compiles properly without error
 if __name__ == "__main__":
