@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 import networkx as nx
-
+from typing import List
 from infra_utils import TrackSection, Node, Station, Signal
 
 
@@ -58,10 +58,42 @@ class InfraBuilder:
             self.graph.add_edge(node_or_station_id, track, weight=track.length)
 
     def build_graph(self):
-        # To facilitate finding path from starting station to destination along the stations
-        # mentioned in timetable
         for node_id, node in self.nodes.items():
             self.add_to_graph(node_id, node.incoming, node.outgoing)
         for station_id, station in self.stations.items():
             self.add_to_graph(station_id, station.incoming, station.outgoing)
         return self.graph
+
+
+@dataclass
+class RollingStock:
+    id: str
+    type: str
+    speed: float
+    acceleration: float
+    deceleration: float
+    current_location: tuple = field(default=None)
+    current_track_section: object = field(default=None)
+    status: str = field(default='idle')
+    schedule: 'TimeTable' = field(default=None)
+
+
+@dataclass
+class TimeTable:
+    id: str
+    rolling_stock_id: str
+    stops: List[dict] = field(default_factory=list)
+
+    def add_stop(self, station, arrival_time, departure_time):
+        stop = {
+            'station': station,
+            'arrival_time': arrival_time,
+            'departure_time': departure_time
+        }
+        self.stops.append(stop)
+
+    def get_next_stop(self, current_time):
+        for stop in self.stops:
+            if current_time < stop['arrival_time']:
+                return stop
+        return None
