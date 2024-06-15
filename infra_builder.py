@@ -58,6 +58,8 @@ class InfraBuilder:
             self.graph.add_edge(node_or_station_id, track, weight=track.length)
 
     def build_graph(self):
+        # To facilitate finding path from starting station to destination along the stations
+        # mentioned in timetable
         for node_id, node in self.nodes.items():
             self.add_to_graph(node_id, node.incoming, node.outgoing)
         for station_id, station in self.stations.items():
